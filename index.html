@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0e1a3a">
+<meta name="theme-color" content="#0b2f40">
 <link rel="icon" type="image/png" href="favicon.png"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
 <title>Painel | Aroma e Brilho</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
-:root{--azul:#1b47f5;--azul2:#0f2fb8;--ink:#0e1a3a;--bg:#f2f5ff;--sf:#fff;--lim:#ffe24a;--mut:#5b6787;--bd:#dde3f5;--ok:#0b8a5f;--warn:#a86400;--red:#d63b40;color-scheme:light}
+:root{--azul:#19647e;--azul2:#0f4a60;--ink:#0b2f40;--bg:#eef8fb;--sf:#fff;--lim:#f0c85a;--mut:#55707c;--bd:#d3e6ee;--ok:#0b7f5a;--warn:#a86400;--red:#c9363b;color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Figtree,system-ui,sans-serif;line-height:1.45}
 h1,h2,h3,.big{font-family:"Bricolage Grotesque",Figtree,sans-serif}
@@ -73,8 +73,8 @@ details.lj .g{display:grid;gap:8px;padding-bottom:14px}
 .tabs b{background:var(--lim);color:var(--ink);border-radius:99px;padding:0 9px;margin-left:8px;font-size:.8rem}.tabs b:empty{display:none}
 .tools2{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .od{background:var(--sf);border:1.5px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:12px;display:grid;gap:10px}
-.od.nv{border-color:var(--azul);box-shadow:0 0 0 4px rgba(27,71,245,.12);animation:pulse 1.6s 3}
-@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(27,71,245,0)}}
+.od.nv{border-color:var(--azul);box-shadow:0 0 0 4px rgba(25,100,126,.12);animation:pulse 1.6s 3}
+@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(25,100,126,0)}}
 .oh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.oh h3{margin:0;font-size:1.2rem}.oh time{margin-left:auto;color:var(--mut);font-size:.85rem}
 .bg{border-radius:99px;padding:3px 12px;font-size:.8rem;font-weight:700}
 .s_novo{background:var(--lim)}.s_confirmado{background:#d3e0ff;color:var(--azul2)}.s_entrega{background:#d3f4e4;color:var(--ok)}.s_entregue{background:var(--ok);color:#fff}.s_cancelado{background:#ffdcd6;color:var(--red)}
@@ -82,6 +82,12 @@ details.lj .g{display:grid;gap:8px;padding-bottom:14px}
 .pgm,.ob{margin:0;font-size:.92rem}.ob{color:var(--mut)}
 .ot{display:flex;justify-content:space-between;font-family:"Bricolage Grotesque";font-weight:800;font-size:1.35rem}
 .oa{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.lk{text-decoration:none;display:inline-block}
+.alerta{background:var(--red);color:#fff;padding:12px 18px;font-weight:600;font-size:.92rem;line-height:1.4}
+.hrw{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.hrw label{width:112px;font-weight:600;display:flex;gap:6px;align-items:center}
+.hrw input[type=time]{width:112px}.hrw input[type=checkbox],.chk input{width:auto}
+.chk{display:flex;gap:8px;align-items:center;font-weight:600;margin-top:8px}
+.fotob{width:54px;height:54px;border-radius:12px;border:1.5px dashed var(--bd);display:grid;place-items:center;overflow:hidden;cursor:pointer;font-size:.72rem;color:var(--mut);flex:none;text-align:center}
+.fotob img{width:100%;height:100%;object-fit:cover}
 .lg{width:34px;height:34px;border-radius:50%;margin-right:10px;vertical-align:middle;box-shadow:0 0 0 2px rgba(255,255,255,.5)}
 .lgb{width:110px;height:110px;border-radius:50%;margin-bottom:18px;box-shadow:0 10px 26px rgba(0,0,0,.25)}
 textarea{font:inherit;color:var(--ink);background:var(--sf);border:1.5px solid var(--bd);border-radius:10px;padding:9px 11px;width:100%;resize:vertical}
@@ -147,7 +153,7 @@ function lista(){if(!$("lista"))return;
   const ok=p=>p.nome.toLowerCase().includes(q)&&(filtro==="todos"||(filtro==="esgotado"&&p.vars.some(v=>e0(v)<=0))||(filtro==="baixo"&&p.vars.some(v=>e0(v)>0&&e0(v)<=5)));
   const cats=[...new Set(prods.map(p=>p.cat))];
   const h=prods.map((p,i)=>ok(p)?`<div class="pr"><div class="hd">
-    <input class="ic" value="${esc(p.ico)}" aria-label="Ícone" onchange="setP(${i},'ico',this.value)">
+    <label class="fotob" title="Trocar a foto">${p.foto?`<img src="${esc(p.foto)}" alt="Foto de ${esc(p.nome)}">`:`<span>Adicionar foto</span>`}<input type="file" accept="image/*" hidden onchange="foto(${i},this)"></label>${p.foto?`<button class="del" onclick="setP(${i},'foto','');lista()">Tirar foto</button>`:""}
     <input class="nm" value="${esc(p.nome)}" aria-label="Nome" onchange="setP(${i},'nome',this.value)">
     <input class="ct" list="cats" placeholder="Categoria" value="${esc(p.cat)}" aria-label="Categoria" onchange="setP(${i},'cat',this.value)"></div>
     <div class="vs">${p.vars.map((v,j)=>{const e=e0(v),c=e<=0?"out":e<=5?"low":"";return `<div class="v">
@@ -174,8 +180,13 @@ function produtosView(){
   $("mn").innerHTML=`<div class="stats" id="stats"></div>
   <details class="lj"><summary>Dados da loja e bairros atendidos</summary><div class="g">
     <input id="l_end" placeholder="Endereço" value="${esc(loja.end)}" aria-label="Endereço" onchange="setLoja('end',this.value)">
-    <input id="l_hor" placeholder="Horário, ex.: Seg a Sáb, 8h às 18h" value="${esc(loja.hor)}" aria-label="Horário" onchange="setLoja('hor',this.value)">
-    <p class="l2">Bairros com entrega grátis, um por linha</p><textarea id="l_bairros" rows="4" placeholder="Vila Velha&#10;Jardim Iracema" onchange="setBairros(this.value)">${esc((loja.bairros||[]).join("\n"))}</textarea></div></details>
+    <input id="l_hor" placeholder="Aviso de horário (opcional), ex.: Fechado em feriados" value="${esc(loja.hor)}" aria-label="Horário" onchange="setLoja('hor',this.value)">
+    <p class="l2">Bairros com entrega grátis, um por linha</p><textarea id="l_bairros" rows="4" placeholder="Vila Velha&#10;Jardim Iracema" onchange="setBairros(this.value)">${esc((loja.bairros||[]).join("\n"))}</textarea>
+    <p class="l2">Taxa de entrega para bairros fora da lista</p>
+    <div class="pre"><span>R$</span><input type="number" step="0.01" min="0" aria-label="Taxa de entrega" value="${loja.taxa==null?10:loja.taxa}" onchange="setTaxa(this.value)"></div>
+    <p class="l2">Horário de funcionamento</p>
+    ${[1,2,3,4,5,6,0].map(d=>{const h=(loja.horarios||{})[d]||{on:false,a:"08:00",f:"18:00"};return `<div class="hrw"><label><input type="checkbox" ${h.on?"checked":""} onchange="setH(${d},'on',this.checked)"> ${NOMES[d]}</label><input type="time" aria-label="Abre ${NOMES[d]}" value="${h.a||"08:00"}" onchange="setH(${d},'a',this.value)"><span>às</span><input type="time" aria-label="Fecha ${NOMES[d]}" value="${h.f||"18:00"}" onchange="setH(${d},'f',this.value)"></div>`}).join("")}
+    <label class="chk"><input type="checkbox" ${loja.fechado?"checked":""} onchange="setLoja('fechado',this.checked)"> Fechar a loja agora (o site para de aceitar pedidos)</label></div></details>
   <div class="tools"><input type="search" id="bq" placeholder="Buscar produto" aria-label="Buscar produto" value="${esc(busca)}"><button class="btn" onclick="novo()">Novo produto</button></div>
   <p class="info">Tudo é salvo na hora e já aparece no site dos clientes.</p><div id="lista"></div>`;
   $("bq").oninput=e=>{busca=e.target.value;lista()};
@@ -234,11 +245,12 @@ function card(o){
   const pg=o.pag==="Dinheiro"?(o.troco?`Dinheiro, troco para ${brl(o.troco)} (levar ${brl(o.troco-o.total)})`:"Dinheiro, sem troco"):"Pix";
   const B={novo:[["confirmado","Confirmar pedido"]],confirmado:[["entrega","Saiu para entrega"]],entrega:[["entregue","Marcar como entregue"]]}[o.status]||[];
   return `<article class="od ${o.status==="novo"?"nv":""}"><div class="oh"><h3>Pedido ${esc(o.codigo)}</h3><span class="bg s_${o.status}">${ST[o.status]}</span><time>${h}</time></div>
-  <p class="cl"><b>${esc(c.nome)}</b><br>${esc(c.bairro)}, ${esc(c.rua)}</p>${fora?`<p class="fora">Bairro fora da lista de entrega grátis. Confirme a entrega e o valor com o cliente.</p>`:""}
+  <p class="cl"><b>${esc(c.nome)}</b><br>${esc(c.bairro)}, ${esc(c.rua)}</p>${o.entrega?`<p class="fora">Bairro fora da lista: taxa de entrega de ${brl(o.entrega)} somada ao total.</p>`:fora?`<p class="fora">Bairro fora da lista de entrega grátis. Confirme a entrega com o cliente.</p>`:""}
   <ul class="oi">${(o.itens||[]).map(i=>`<li><span>${i.q}x ${esc(i.nome)}</span><span>${brl(i.q*i.p)}</span></li>`).join("")}</ul>
   <p class="pgm">${pg}</p>${o.obs?`<p class="ob">Obs: ${esc(o.obs)}</p>`:""}
-  <div class="ot"><span>Total</span><span>${brl(o.total)}</span></div>
+  ${o.entrega?`<div class="ot" style="font-size:.9rem;font-weight:500"><span>Entrega</span><span>${brl(o.entrega)}</span></div>`:""}<div class="ot"><span>Total</span><span>${brl(o.total)}</span></div>
   <div class="oa">${B.map(([st,t])=>`<button class="btn" onclick="mudarStatus('${o.id}','${st}')">${t}</button>`).join("")}
+  <button class="ghost" onclick="imprimir('${o.id}')">Imprimir ficha</button>
   ${wa?`<a class="ghost lk" target="_blank" rel="noopener" href="${wa}">Chamar no WhatsApp</a>`:""}
   ${B.length?`<button class="del" style="margin-left:auto" onclick="if(confirm('Cancelar o pedido ${esc(o.codigo)}?'))mudarStatus('${o.id}','cancelado')">Cancelar pedido</button>`:""}</div></article>`;
 }
@@ -262,6 +274,35 @@ async function ajustar(o,sinal){
   for(const it of o.itens||[]){const p=prods.find(x=>x.id===it.pid),v=p&&p.vars[it.vi];if(!v)continue;v.e=Math.max(0,e0(v)+sinal*it.q);tocados.set(p.id,p)}
   await Promise.all([...tocados.values()].map(p=>setDoc(doc(db,"produtos",String(p.id)),p)));
 }
+const NOMES=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+function imprimir(id){
+  const o=pedidos.find(x=>x.id===id);if(!o)return;
+  const c=o.cliente||{},d=new Date(o.criadoEm).toLocaleString("pt-BR");
+  const sub=(o.itens||[]).reduce((a,i)=>a+i.q*i.p,0);
+  const pg=o.pag==="Dinheiro"?(o.troco?`Dinheiro. Troco para ${brl(o.troco)}: LEVAR ${brl(o.troco-o.total)}`:"Dinheiro. Sem troco"):"Pix";
+  const h=`<!doctype html><html lang="pt-BR"><meta charset="utf-8"><title>Pedido ${esc(o.codigo)}</title><style>@page{margin:6mm}body{font:14px/1.35 Arial,sans-serif;max-width:76mm;margin:0 auto;color:#000}h1{font-size:18px;text-align:center;margin:0}p{margin:3px 0}.c{text-align:center}hr{border:0;border-top:1px dashed #000;margin:8px 0}.r{display:flex;justify-content:space-between;gap:8px}.t{font-size:17px;font-weight:700}</style><body>
+<h1>Aroma e Brilho</h1><p class="c">Pedido #${esc(o.codigo)} - ${d}</p><hr>
+<p><b>${esc(c.nome)}</b></p><p>${esc(c.rua)}</p><p>Bairro: ${esc(c.bairro)}</p><p>Tel: ${esc(c.tel)}</p><hr>
+${(o.itens||[]).map(i=>`<div class="r"><span>${i.q}x ${esc(i.nome)}</span><span>${brl(i.q*i.p)}</span></div>`).join("")}<hr>
+<div class="r"><span>Itens</span><span>${brl(sub)}</span></div><div class="r"><span>Entrega</span><span>${o.entrega?brl(o.entrega):"Grátis"}</span></div>
+<div class="r t"><span>TOTAL</span><span>${brl(o.total)}</span></div><hr>
+<p>Pagamento: ${esc(pg)}</p>${o.obs?`<p>Obs: ${esc(o.obs)}</p>`:""}
+<script>onload=()=>{print()}<\/script></body></html>`;
+  const w=window.open("","_blank","width=420,height=640");
+  if(!w){msg("O navegador bloqueou a janela. Permita pop-ups para imprimir.",1);return}
+  w.document.write(h);w.document.close();
+}
+async function foto(i,el){
+  const f=el.files&&el.files[0];if(!f)return;
+  try{
+    const url=await new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;r.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{
+      const M=420,s=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement("canvas");
+      c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);
+      const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
+      res(c.toDataURL("image/jpeg",.8))};im.src=r.result};r.readAsDataURL(f)});
+    prods[i].foto=url;await save(prods[i]);lista();
+  }catch(e){msg("Não consegui usar essa imagem. Tente outra foto.",1)}
+}
 async function mudarStatus(id,st){
   const o=pedidos.find(x=>x.id===id);if(!o)return;
   const up={status:st};
@@ -274,6 +315,9 @@ async function mudarStatus(id,st){
   }catch(e){erro(e)}
 }
 Object.assign(window,{
+  imprimir,foto,
+  setTaxa:v=>{loja.taxa=Math.max(0,parseFloat(v)||0);setDoc(doc(db,"config","loja"),loja).then(()=>msg("Taxa salva")).catch(erro)},
+  setH:(d,k,v)=>{loja.horarios=loja.horarios||{};const h=loja.horarios[d]=loja.horarios[d]||{on:false,a:"08:00",f:"18:00"};h[k]=v;setDoc(doc(db,"config","loja"),loja).then(()=>msg("Horário salvo")).catch(erro)},
   setAba:k=>{aba=k;mostrar()},setBairros:v=>{loja.bairros=v.split("\n").map(x=>x.trim()).filter(Boolean);setDoc(doc(db,"config","loja"),loja).then(()=>msg("Bairros salvos")).catch(erro)},setFP:k=>{fp=k;listaPed()},mudarStatus,
   setF:k=>{filtro=k;lista()},
   setLoja:(k,v)=>{loja[k]=v;setDoc(doc(db,"config","loja"),loja).then(()=>msg("Alteração salva")).catch(erro)},
@@ -289,22 +333,30 @@ Object.assign(window,{
     msg("Produtos importados. Ajuste o estoque de cada um.")}
 });
 
+function alerta(t){let a=document.getElementById("alerta");if(!t){if(a)a.remove();return}if(!a){a=document.createElement("div");a.id="alerta";a.className="alerta";a.setAttribute("role","alert");document.body.prepend(a)}a.textContent=t}
+function falha(e){
+  const c=e&&e.code||"";
+  alerta(c==="permission-denied"?"O Firebase negou o acesso aos dados. Publique as regras (firestore.rules) com o mesmo e-mail que você usa no login do painel."
+    :c==="unavailable"||c==="deadline-exceeded"?"Sem conexão com o Firebase. Confira a internet e recarregue a página."
+    :"Não foi possível carregar os dados ("+(c||(e&&e.message)||"erro desconhecido")+").");
+}
+const ouvir=(ref,cb)=>onSnapshot(ref,s=>{alerta("");cb(s)},falha);
 onAuthStateChanged(auth,u=>{
   unsubs.forEach(f=>f());unsubs=[];lastKey="";
   if(!u){loginView();return}
   panel();primeira=true;pedidos=[];
-  unsubs.push(onSnapshot(query(collection(db,"pedidos"),orderBy("criadoEm","desc"),limit(400)),s=>{
+  unsubs.push(ouvir(query(collection(db,"pedidos"),orderBy("criadoEm","desc"),limit(400)),s=>{
     pedidos=s.docs.map(d=>({id:d.id,...d.data()}));
     if(!primeira)s.docChanges().forEach(c=>{if(c.type==="added"&&c.doc.data().status==="novo")avisar(c.doc.data())});
     primeira=false;listaPed();badge();if(aba==="vendas")relat();
   },erro));
-  unsubs.push(onSnapshot(collection(db,"produtos"),s=>{
+  unsubs.push(ouvir(collection(db,"produtos"),s=>{
     prods=s.docs.map(d=>d.data()).sort((a,b)=>(a.ordem||a.id)-(b.ordem||b.id));
     const key=prods.map(p=>p.id+":"+p.vars.length).join();
     if(key!==lastKey){lastKey=key;lista()}
     if(aba==="vendas")relat();
   }));
-  unsubs.push(onSnapshot(doc(db,"config","loja"),s=>{loja={end:"",hor:"",...(s.data()||{})};for(const k of["end","hor"]){const el=$("l_"+k);if(el&&document.activeElement!==el)el.value=loja[k]||""}}));
+  unsubs.push(ouvir(doc(db,"config","loja"),s=>{loja={end:"",hor:"",...(s.data()||{})};for(const k of["end","hor"]){const el=$("l_"+k);if(el&&document.activeElement!==el)el.value=loja[k]||""}}));
 });
 </script>
 <script>
